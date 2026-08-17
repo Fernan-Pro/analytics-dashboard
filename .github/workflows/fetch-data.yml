@@ -20,4 +20,4 @@ jobs:
           curl -fsS -X POST \
             -H "X-Admin-Token: ${ADMIN_FETCH_TOKEN}" \
             --max-time 240 \
-            https://analytics-dashboard-api.onrender.com/api/admin/fetch/
+            https://analytics-dashboard-api-u27v.onrender.com/api/admin/fetch/
