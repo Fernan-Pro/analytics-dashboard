@@ -1,0 +1,6 @@
+# Windows: el checkout de Git convierte LF a CRLF y rompe los scripts/sh.
+# Se fuerzan LF en los archivos que van a ejecutarse en Linux (Docker/Render).
+*.sh text eol=lf
+Dockerfile text eol=lf
+render.yaml text eol=lf
+.github/** text eol=lf

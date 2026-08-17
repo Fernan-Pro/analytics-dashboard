@@ -13,7 +13,6 @@ services:
     plan: free
     rootDir: backend
     dockerfilePath: Dockerfile
-    preDeployCommand: python manage.py migrate --noinput
     healthCheckPath: /api/metrics/snapshot/
     envVars:
       - key: DATABASE_URL
