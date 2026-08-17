@@ -5,6 +5,8 @@
 - Lanza ApiClientError con contexto útil para logs y Celery retry.
 """
 
+from __future__ import annotations
+
 import logging
 import random
 import time
