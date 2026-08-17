@@ -20,4 +20,5 @@ EXPOSE 8000
 
 # Migraciones con reintentos (la BD tarda en estar lista) + gunicorn.
 # Sustituye al preDeployCommand, que no está soportado en el plan free de Render.
-CMD ["sh", "-c", "i=0; while [ $i -lt 12 ]; do python manage.py migrate --noinput && break; i=$((i+1)); echo 'migrate fallo, reintentando en 5s...'; sleep 5; done; exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 60"]
+# 1 worker en 512MB (evita OOM); timeout largo para el fetch síncrono del cron.
+CMD ["sh", "-c", "i=0; while [ $i -lt 12 ]; do python manage.py migrate --noinput && break; i=$((i+1)); echo 'migrate fallo, reintentando en 5s...'; sleep 5; done; exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 300"]
