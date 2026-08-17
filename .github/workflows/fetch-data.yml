@@ -1,0 +1,23 @@
+name: fetch-data
+
+on:
+  schedule:
+    # Cada 15 minutos: mantiene los datos frescos y el backend de Render despierto.
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ejecutar scraping vía endpoint protegido
+        env:
+          ADMIN_FETCH_TOKEN: ${{ secrets.ADMIN_FETCH_TOKEN }}
+        run: |
+          curl -fsS -X POST \
+            -H "X-Admin-Token: ${ADMIN_FETCH_TOKEN}" \
+            --max-time 240 \
+            https://analytics-dashboard-api.onrender.com/api/admin/fetch/

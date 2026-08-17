@@ -1,0 +1,35 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python / Django
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+staticfiles/
+media/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Logs y residuos de desarrollo
+*.log
+*.pid
+smoke_out.txt
+smoke*.json
+
+# Herramientas de automatización
+.playwright-mcp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
