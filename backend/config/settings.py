@@ -157,6 +157,42 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # ---------------------------------------------------------------------------
+# Logging: exponer requests y errores en stderr (clave para depurar en Render)
+# ---------------------------------------------------------------------------
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "formatters": {
+        "simple": {
+            "format": "[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+    },
+}
+
+# ---------------------------------------------------------------------------
 # API externas
 # ---------------------------------------------------------------------------
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
