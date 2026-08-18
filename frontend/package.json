@@ -12,7 +12,7 @@
     "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^1.31.0",
-    "next": "file:./vendor/next-16.3.1.tgz",
+    "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "recharts": "^3.10.1"

@@ -14,7 +14,6 @@ overrides:
   "@typescript-eslint/visitor-keys": 8.66.0
   "@typescript-eslint/project-service": 8.66.0
   "@typescript-eslint/tsconfig-utils": 8.66.0
-  "@next/swc-win32-x64-msvc": "file:./vendor/swc-win32-x64-msvc-16.3.1.tgz"
 
 # Red lenta/inestable: timeouts y reintentos amplios
 fetchTimeout: 600000
