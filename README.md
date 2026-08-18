@@ -193,7 +193,27 @@ Paginación: `page_size` (default 25, máx 100). Respuesta estándar `{count, ne
 | Product Hunt sin datos | Falta `PRODUCT_HUNT_TOKEN` |
 | Celery no arranca | Redis no está corriendo. `docker compose up -d redis` o usa `scripts\fetch-data.cmd` |
 | `UnicodeEncodeError` en consola (cp1252) | Ejecuta con `set PYTHONIOENCODING=utf-8` (los scripts ya lo hacen) |
-| `pnpm install` lento o timeouts | `pnpm-workspace.yaml` ya configura timeouts largos. `next` y el binario SWC vienen de `frontend/vendor/` (tarballs locales); para actualizar Next, descarga los tarballs nuevos a `vendor/` y actualiza `package.json` + `pnpm-workspace.yaml` |
+| `pnpm install` lento o timeouts | `pnpm-workspace.yaml` ya configura timeouts largos (`fetchTimeout: 600000`, `fetchRetries: 15`) |
 | typescript-eslint 8.67.0 roto | Pinneado a 8.66.0 vía `pnpm.overrides` en `pnpm-workspace.yaml` |
 | `@tanstack/react-table` v9 | v9 es un rewrite incompatible con la API clásica; el proyecto usa la v8 estable (8.21.x) |
 | CSV con caracteres raros al abrirlo | El archivo es UTF-8 (`charset=utf-8` en el header). Excel: Datos > Obtener datos > Desde archivo CSV y elegir UTF-8 |
+
+## Producción (deploy gratuito)
+
+| Servicio | URL | Notas |
+|---|---|---|
+| Frontend (Vercel) | https://analytics-dashboard-eta-peach.vercel.app | Import del repo con Root Directory `frontend` y `NEXT_PUBLIC_API_URL` |
+| Backend (Render) | https://analytics-dashboard-api-u27v.onrender.com | Blueprint `render.yaml` (Docker + Postgres free) |
+| Repositorio | https://github.com/Fernan-Pro/analytics-dashboard | Público, branch `master` |
+
+- **Cron de datos**: `.github/workflows/fetch-data.yml` llama cada 15 min a
+  `POST /api/admin/fetch/` (header `X-Admin-Token`, secret de GitHub `ADMIN_FETCH_TOKEN`).
+  Sustituye a Celery en producción y mantiene el servicio de Render activo (free tier).
+- **Migraciones**: se ejecutan en el arranque del contenedor (el plan free de Render no
+  soporta `preDeployCommand`).
+- **Nota free tier**: la base de datos gratuita de Render expira a los 30 días
+  (hay que re-crearla o migrar); el servicio entra en suspensión tras 15 min de
+  inactividad (el cron lo despierta cada 15 min).
+- **Endpoints en producción** (mismos paths que local):
+  `https://analytics-dashboard-api-u27v.onrender.com/api/metrics/snapshot/`, `/api/github/trends/`,
+  `/api/hackernews/stories/`, `/api/producthunt/launches/`, `/api/export/csv/?category=...`.
