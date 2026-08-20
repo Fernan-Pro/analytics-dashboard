@@ -19,5 +19,6 @@ jobs:
         run: |
           curl -fsS -X POST \
             -H "X-Admin-Token: ${ADMIN_FETCH_TOKEN}" \
+            --retry 5 --retry-all-errors --retry-delay 20 --retry-max-time 600 \
             --max-time 240 \
             https://analytics-dashboard-api-u27v.onrender.com/api/admin/fetch/
